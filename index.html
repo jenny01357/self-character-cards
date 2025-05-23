@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🌟 自我角色建構卡牌</title>
+  <style>
+    body {
+      font-family: "Arial", sans-serif;
+      background-color: #f4f7fc;
+      margin: 0;
+      padding: 1rem;
+      text-align: center;
+    }
+    header {
+      background-color: #7b9acc;
+      padding: 1rem;
+      color: white;
+    }
+    button {
+      margin: 1rem 0.5rem;
+      padding: 0.75rem 1.2rem;
+      background-color: #6b88d1;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .card-box, .history-box {
+      margin: 1.5rem auto;
+      padding: 1.5rem;
+      max-width: 600px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: left;
+    }
+    section {
+      text-align: left;
+      max-width: 800px;
+      margin: 2rem auto;
+      background: #ffffff;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    h2 { color: #555; }
+    ul { padding-left: 1.2rem; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>🌟 自我角色建構卡牌</h1>
+  <p>Self-Character Builder Cards</p>
+</header>
+
+<p id="visitorCount">👥 訪客數：載入中...</p>
+<script>
+  fetch('https://api.countapi.xyz/hit/self-character-builder/visitor')
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('visitorCount').innerText = `👥 訪客數：${data.value}`;
+    });
+</script>
+
+<p style="margin-top: 0.5rem; font-weight: bold; color: #444;">📝 建議記錄內在對話與反思，可另存記錄</p>
+
+<section>
+  <h2>🎯 遊戲目的與規則</h2>
+  <ol>
+    <li>抽角色卡+信念卡後，去思考這個角色會怎樣保持這個信念，並且嘗試表達或是記錄下來。</li>
+    <li>抽挑戰卡，讓自己跟這個角色進行對話跟認知辯證。</li>
+    <li>選你喜歡的角色和再抽信念卡，代替原本一開始抽的那個組合。</li>
+    <li>最後抽出行動卡，用你喜歡（你所選擇的）的角色去完成挑戰上所說的任務，並且嘗試表達或者紀錄。</li>
+  </ol>
+  <h3>📌 所有角色卡</h3>
+  <ul>
+    <li><strong>評審者</strong>: 『你怎麼又搞砸了？你應該早點做得更好。』</li>
+    <li><strong>照顧者</strong>: 『沒關係，我在這裡陪你，一切都會慢慢變好的。』</li>
+    <li><strong>求生者</strong>: 『我不管怎樣都會撐過去，我不能倒下。』</li>
+    <li><strong>探索者</strong>: 『這個挑戰也許會帶來有趣的發現。』</li>
+    <li><strong>力量者</strong>: 『我經歷過更糟的，我一定能再撐過去。』</li>
+    <li><strong>懷疑者</strong>: 『這真的會有用嗎？我不太相信。』</li>
+    <li><strong>創造者</strong>: 『也許我能換個角度，創造新的可能性。』</li>
+    <li><strong>和平者</strong>: 『我們可以找到一個讓彼此都舒服的方法。』</li>
+    <li><strong>觀察者</strong>: 『我注意到自己又進入這種想法模式了。』</li>
+  </ul>
+</section>
+
+<button onclick="drawCard('role')">抽角色卡</button>
+<button onclick="drawCard('belief')">抽信念卡</button>
+<button onclick="drawCard('challenge')">抽挑戰卡</button>
+<button onclick="drawCard('action')">抽行動卡</button>
+<button onclick="downloadHistory()">💾 儲存互動記錄</button>
+
+<div class="card-box" id="currentCard">
+  <h2 id="cardTitle">請抽一張卡牌</h2>
+  <p id="cardContent">點選上方按鈕開始互動</p>
+</div>
+
+<div class="history-box">
+  <h3>🎯 抽卡記錄</h3>
+  <ul id="historyList"></ul>
+</div>
+
+<script>
+  const roleCards = [
+    { title: "評審者（The Inner Critic）", content: "『你怎麼又搞砸了？你應該早點做得更好。』" },
+    { title: "照顧者（The Nurturer）", content: "『沒關係，我在這裡陪你，一切都會慢慢變好的。』" },
+    { title: "求生者（The Survivor）", content: "『我不管怎樣都會撐過去，我不能倒下。』" },
+    { title: "探索者（The Explorer）", content: "『這個挑戰也許會帶來有趣的發現。』" },
+    { title: "力量者（The Strong One）", content: "『我經歷過更糟的，我一定能再撐過去。』" },
+    { title: "懷疑者（The Doubter）", content: "『這真的會有用嗎？我不太相信。』" },
+    { title: "創造者（The Creator）", content: "『也許我能換個角度，創造新的可能性。』" },
+    { title: "和平者（The Peacemaker）", content: "『我們可以找到一個讓彼此都舒服的方法。』" },
+    { title: "觀察者（The Observer）", content: "『我注意到自己又進入這種想法模式了。』" }
+  ];
+
+  const beliefCards = [
+    "我永遠不夠好", "我不能犯錯", "人不會真正理解我", "我不應該讓人失望",
+    "每個人都在評價我", "我無法控制事情",
+    "我正在學習並成長", "我值得被愛", "錯誤是經驗的一部分",
+    "我有能力面對挑戰", "我值得有快樂", "我的價值不取決於表現"
+  ];
+
+  const challengeCards = [
+    "你今天在課堂上被批評，『你抽到的角色』會說什麼？你希望由誰來回應？",
+    "你今天感覺被拒絕，心裡浮現什麼聲音？這是誰在說話？",
+    "當你發現自己拖延時，是哪個角色在主導？你希望換誰來接手？",
+    "如果你今天犯了錯，哪個角色會出現？你能否給它一個新的回應？"
+  ];
+
+  const actionCards = [
+    "請對自己說三句『你選擇的角色』會說的話",
+    "用『你選擇的角色』的角度觀察今天的生活並記錄下來",
+    "將一句負向信念轉換為正向信念並寫下它",
+    "為你常見的負面信念寫下三個反驳它的證據",
+    "邀請『你選擇的角色』設計一個你可以採取的新行動"
+  ];
+
+  const history = [];
+
+  function drawCard(type) {
+    let pool = [];
+    if (type === 'role') pool = roleCards;
+    if (type === 'belief') pool = beliefCards;
+    if (type === 'challenge') pool = challengeCards;
+    if (type === 'action') pool = actionCards;
+    const card = pool[Math.floor(Math.random() * pool.length)];
+    
+    let title;
+    if (type === 'role') {
+      title = '角色卡';
+    } else {
+      title = type.charAt(0).toUpperCase() + type.slice(1) + '卡';
+    }
+    
+    
+    const content = (typeof card === 'string')
+      ? card
+      : card.title + '\n' + card.content;
+    
+    document.getElementById("cardTitle").innerText = title;
+    document.getElementById("cardContent").innerText = content;
+    const record = `${title}：${content}`;
+    history.push(record);
+    const li = document.createElement("li");
+    li.innerText = record;
+    document.getElementById("historyList").appendChild(li);
+  }
+
+  function downloadHistory() {
+    const blob = new Blob([history.join("\n")], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = '自我角色建構卡牌記錄.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+</script>
+
+</body>
+</html>
