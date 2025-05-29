@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌟 自我角色建構卡牌</title>
+  <style>
+    body {
+      font-family: "Arial", sans-serif;
+      background-color: #f4f7fc;
+      margin: 0;
+      padding: 1rem;
+      text-align: center;
+    }
+    header {
+      background-color: #7b9acc;
+      padding: 1rem;
+      color: white;
+    }
+    button {
+      margin: 0.5rem;
+      padding: 0.75rem 1.2rem;
+      background-color: #6b88d1;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .step-box {
+      margin: 1.5rem auto;
+      padding: 1rem;
+      max-width: 700px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: left;
+    }
+    .step-title {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .card-result {
+      margin-top: 0.5rem;
+      font-style: italic;
+      color: #333;
+    }
+    select {
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌟 自我角色建構卡牌</h1>
+    <p>Self-Character Builder Cards</p>
+  </header>
+
+  <div class="step-box">
+    <h2>🌟 歡迎體驗《自我角色建構卡牌》</h2>
+    <p>Self-Character Builder Cards</p>
+    <p>這是一套專為青少年與成人設計的心理探索卡牌，透過遊戲化的方式，幫助你更認識自己、理解內在聲音，並一步步重建信念、轉化思維，活出更有彈性與力量的自我敘事。</p>
+    <h3>🎯 我們的設計目的</h3>
+    <ul>
+      <li>辨識自動化思考</li>
+      <li>練習認知重建（Cognitive Restructuring）</li>
+      <li>探索潛在信念（核心與中介信念）</li>
+      <li>實踐行為轉換與角色扮演</li>
+      <li>建立自我觀察與自我接納能力</li>
+    </ul>
+    <p>靈感來自 <strong>認知行為治療（CBT）</strong> 的五大核心技術，讓心理工作變得有趣而有力量。</p>
+    <h3>🎲 推薦玩法流程（個人或團體均適用）</h3>
+    <ol>
+      <li>抽角色卡 + 信念卡：模擬這個角色的語氣說出這句信念</li>
+      <li>抽挑戰卡：展開角色對話與認知辯證</li>
+      <li>選擇療癒角色 + 新信念卡：建立新的內在對話</li>
+      <li>抽行動卡：實踐具體改變，完成任務並自我記錄</li>
+    </ol>
+    <p>💬 這是一趟從內在對話出發的心理旅程，遊戲只是開端，理解自己才是真正的目的。</p>
+    <p><strong>準備好了嗎？現在就開始與內在的自己見面吧！</strong></p>
+  </div><div class="step-box">
+    <div class="step-title">步驟 1：探索原始信念與角色</div>
+    <p>抽角色卡與信念卡後，去思考這個角色會怎樣保持這個信念，並且嘗試表達或是記錄下來。</p>
+    <button onclick="drawStep1Card('role')">抽角色卡</button>
+    <button onclick="drawStep1Card('belief')">抽信念卡</button>
+    <div id="step1Role" class="card-result">角色卡：</div>
+    <div id="step1Belief" class="card-result">信念卡：</div>
+  </div>
+
+  <div class="step-box">
+    <div class="step-title">步驟 2：抽挑戰卡並展開角色對話</div>
+    <p>讓自己與剛才抽到的角色進行對話與認知辯證。</p>
+    <button onclick="drawStepCard('challenge', 'step2Result')">抽挑戰卡</button>
+    <div id="step2Result" class="card-result"></div>
+  </div>
+
+  <div class="step-box">
+    <div class="step-title">步驟 3：轉換信念與角色</div>
+    <p>請選擇你喜歡的角色，並再抽一張信念卡，替代原先抽到的組合。</p>
+    <select id="selectedRole">
+      <option disabled selected>請選擇角色</option>
+      <option value="照顧者">照顧者：『沒關係，我在這裡陪你，一切都會慢慢變好的。』</option>
+      <option value="評審者">評審者：『你怎麼又搞砸了？你應該早點做得更好。』</option>
+      <option value="求生者">求生者：『我不管怎樣都會撐過去，我不能倒下。』</option>
+      <option value="探索者">探索者：『這個挑戰也許會帶來有趣的發現。』</option>
+      <option value="力量者">力量者：『我經歷過更糟的，我一定能再撐過去。』</option>
+      <option value="懷疑者">懷疑者：『這真的會有用嗎？我不太相信。』</option>
+      <option value="創造者">創造者：『也許我能換個角度，創造新的可能性。』</option>
+      <option value="和平者">和平者：『我們可以找到一個讓彼此都舒服的方法。』</option>
+      <option value="觀察者">觀察者：『我注意到自己又進入這種想法模式了。』</option>
+    </select>
+    <button onclick="drawStepCard('belief', 'step3Result')">抽信念卡</button>
+    <div id="step3Result" class="card-result"></div>
+  </div>
+
+  <div class="step-box">
+    <div class="step-title">步驟 4：抽行動卡並實踐</div>
+    <p>請使用你選擇的角色，去完成挑戰中提到的任務，並嘗試表達或記錄下來。</p>
+    <button onclick="drawStepCard('action', 'step4Result')">抽行動卡</button>
+    <div id="step4Result" class="card-result"></div>
+  </div>
+
+  <script>
+    const cards = {
+      role: [
+        "評審者：『你怎麼又搞砸了？你應該早點做得更好。』",
+        "照顧者：『沒關係，我在這裡陪你，一切都會慢慢變好的。』",
+        "求生者：『我不管怎樣都會撐過去，我不能倒下。』",
+        "探索者：『這個挑戰也許會帶來有趣的發現。』",
+        "力量者：『我經歷過更糟的，我一定能再撐過去。』",
+        "懷疑者：『這真的會有用嗎？我不太相信。』",
+        "創造者：『也許我能換個角度，創造新的可能性。』",
+        "和平者：『我們可以找到一個讓彼此都舒服的方法。』",
+        "觀察者：『我注意到自己又進入這種想法模式了。』"
+      ],
+      belief: [
+        "我永遠不夠好", "我不能犯錯", "人不會真正理解我", "我不應該讓人失望",
+        "每個人都在評價我", "我無法控制事情", "我正在學習並成長", "我值得被愛",
+        "錯誤是經驗的一部分", "我有能力面對挑戰", "我值得有快樂", "我的價值不取決於表現"
+      ],
+      challenge: [
+        "你今天在課堂上被批評，『你抽到的角色』會說什麼？你希望由誰來回應？",
+        "你今天感覺被拒絕，心裡浮現什麼聲音？這是誰在說話？",
+        "當你發現自己拖延時，是哪個角色在主導？你希望換誰來接手？",
+        "如果你今天犯了錯，哪個角色會出現？你能否給它一個新的回應？"
+      ],
+      action: [
+        "請對自己說三句『你選擇的角色』會說的話",
+        "用『你選擇的角色』的角度觀察今天的生活並記錄下來",
+        "將一句負向信念轉換為正向信念並寫下它",
+        "為你常見的負面信念寫下三個反駁它的證據",
+        "邀請『你選擇的角色』設計一個你可以採取的新行動"
+      ]
+    };
+
+    function drawStep1Card(type) {
+      const drawn = cards[type][Math.floor(Math.random() * cards[type].length)];
+      if (type === "role") {
+        document.getElementById("step1Role").innerText = "角色卡：" + drawn;
+      } else {
+        document.getElementById("step1Belief").innerText = "信念卡：" + drawn;
+      }
+    }
+
+    function drawStepCard(type, id) {
+      const drawn = cards[type][Math.floor(Math.random() * cards[type].length)];
+      document.getElementById(id).innerText = type + "卡：" + drawn;
+    }
+  </script>
+
+<div class="step-box">
+  <div class="step-title">🎯 結語與自我紀錄</div>
+  <p>在這個探索過程中，你先是透過角色卡與信念卡的組合，覺察了內心中那些習以為常、但可能未被意識到的聲音與信念。這些是我們自我對話的原點。</p>
+  <p>接著，透過挑戰卡的對話與辯證，你有機會與這些角色展開對話，質疑它們、理解它們，甚至轉換它們。</p>
+  <p>在選擇新的角色與信念卡後，你開始建構一條新的內在敘事路徑。而透過行動卡，你得以將這條路徑延伸至真實生活，從「思考」走向「實踐」。</p>
+  <p>這不只是遊戲，而是一場心理練習 —— 為你的人生故事打開更多可能性。</p>
+  <p><strong>現在，請你花一點時間，記錄你今天最重要的內在對話、情緒轉折或發現。之後也可以將最近發生的事情或發現與今天的想法碰撞，是否有一些新的感悟？</strong></p>
+  <textarea id="finalReflection" placeholder="請在這裡書寫你的內在觀察與感受..." rows="6" style="width: 100%; font-size: 1rem; padding: 1rem; margin-top: 1rem;"></textarea>
+    <button onclick="submitReflection()">完成記錄</button>
+    <p id="thankYouMessage" style="display: none; color: #4a7c59; font-weight: bold; margin-top: 1rem;">
+      💖 謝謝你的分享。願這些文字成為你理解自己的起點，也願你在每一次回望中，找到更多溫柔與力量。
+    </p>
+    <script>
+      function submitReflection() {
+        const reflection = document.getElementById("finalReflection").value.trim();
+        if (reflection) {
+          document.getElementById("thankYouMessage").style.display = "block";
+        } else {
+          alert("請先輸入一些想法或感受，再完成記錄喔！");
+        }
+      }
+    </script>
+
+</div>
+</body>
+</html>
